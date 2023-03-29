@@ -7,4 +7,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     # path('review/', views.review),
     path('', review),
+    path('thank-you', views.thank_you),
 ]
