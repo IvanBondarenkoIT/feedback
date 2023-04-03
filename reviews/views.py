@@ -3,30 +3,42 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import CreateView
+from pyexpat import model
+
 from .forms import ReviewForm
 from .models import Review
 
 
 # Create your views here.
-class ReviewView(View):
-    def get(self, request):
-        form = ReviewForm()
-        return render(request, 'reviews/review.html', {
-            'form': form
-        })
+class ReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = 'reviews/review.html'
+    success_url = "/thank_you.html"
 
-    def post(self, request):
-            # existing_model = Review.objects.get(pk=1)
-            # form = ReviewForm(request.POST or None, instance=existing_model)
-            form = ReviewForm(request.POST or None)
+    # def form_valid(self, form):
+    #     form.save()
+    #     return super().form_valid(form)
 
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect('/thank-you')
+    # def get(self, request):
+    #     form = ReviewForm()
+    #     return render(request, 'reviews/review.html', {
+    #         'form': form
+    #     })
 
-            return render(request, 'reviews/review.html', {
-                'form': form
-            })
+    # def post(self, request):
+    #         # existing_model = Review.objects.get(pk=1)
+    #         # form = ReviewForm(request.POST or None, instance=existing_model)
+    #         form = ReviewForm(request.POST or None)
+    #
+    #         if form.is_valid():
+    #             form.save()
+    #             return HttpResponseRedirect('/thank-you')
+    #
+    #         return render(request, 'reviews/review.html', {
+    #             'form': form
+    #         })
 
 
 class ThankYouView(TemplateView):
